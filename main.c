@@ -1,5 +1,6 @@
 #include "stm32f10x.h"
 int main(void)
 {
-	while(1); 
+  char* hello="Hello!\n"; 
+  while(1);
 }

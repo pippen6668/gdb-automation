@@ -2,7 +2,7 @@ file main.elf
 target remote :3333
 set $osp = $sp
 set $sp = $sp - 16
-b main.c:4
+b main.c:5
 c
 
 call RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_AFIO, ENABLE)
@@ -18,9 +18,9 @@ call USART_StructInit( (USART_InitTypeDef*) $osp)
 call USART_Init(USART2, $osp)
 call USART_Cmd(USART2, ENABLE)
 c
-call USART_SendData(USART2, 'H')
-call USART_SendData(USART2, 'e')
-call USART_SendData(USART2, 'l')
-call USART_SendData(USART2, 'l')
-call USART_SendData(USART2, 'o')
-call USART_SendData(USART2, '!')
+set $r0=0
+while(*(hello+$r0)!='\0')
+call USART_SendData(USART2, *(hello+$r0))
+set $r0+=1
+end
+
