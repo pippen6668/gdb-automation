@@ -28,7 +28,22 @@ set loggin off
 
 restore gdb.txt binary tmp
 
-printf tmp
+
+set $r0=0
+set $r1=0
+while (*(hello+$r0)!='\0')
+if(*(hello+$r0)!=*(tmp+$r0))
+set $r1=1
+loop_break
+end
+set $r0+=1
+end
+
+if($r1 == 0)
+printf "The output is correct\n"
+end
+
+
 
 
 
