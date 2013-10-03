@@ -2,9 +2,8 @@ file main.elf
 target remote :3333
 set $osp = $sp
 set $sp = $sp - 16
-b main.c:5
+b main.c:6
 c
-
 call RCC_APB2PeriphClockCmd(RCC_APB2Periph_GPIOA | RCC_APB2Periph_AFIO, ENABLE)
 call RCC_APB1PeriphClockCmd(RCC_APB1Periph_USART2, ENABLE)
 call GPIO_StructInit( (GPIO_InitTypeDef*)$osp  )
@@ -13,7 +12,7 @@ set ((GPIO_InitTypeDef*)$osp)->GPIO_Pin = GPIO_Pin_2
 set ((GPIO_InitTypeDef*)$osp)->GPIO_Speed = GPIO_Speed_50MHz
 set ((GPIO_InitTypeDef*)$osp)->GPIO_Mode = GPIO_Mode_AF_PP
 call GPIO_Init(GPIOA, $osp)
-c
+
 call USART_StructInit( (USART_InitTypeDef*) $osp)
 call USART_Init(USART2, $osp)
 call USART_Cmd(USART2, ENABLE)
@@ -23,4 +22,18 @@ while(*(hello+$r0)!='\0')
 call USART_SendData(USART2, *(hello+$r0))
 set $r0+=1
 end
+set loggin on
+printf "%s" ,hello
+set loggin off
+
+restore gdb.txt binary tmp
+
+printf tmp
+
+
+
+
+
+
+
 

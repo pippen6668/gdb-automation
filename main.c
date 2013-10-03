@@ -2,5 +2,6 @@
 int main(void)
 {
   char* hello="Hello!\n"; 
+  char tmp[20];
   while(1);
 }
